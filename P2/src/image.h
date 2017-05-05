@@ -68,6 +68,7 @@ public:
 	}
 	void BresenhamCircle(Vector2 &centre, Vector2 &r, const Color& c);
 	void DDA(Vector2 & inici, Vector2 & final, const Color & c);
+	void Bresenham(Vector2 & inici, Vector2 & final, const Color & c);
 	void drawRectangle(Vector2 & init, Vector2  & final,int plus, const Color& c);
 	void drawTriangle(Vector2 & init, Vector2  & final, const Color& c);
 

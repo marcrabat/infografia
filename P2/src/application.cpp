@@ -183,8 +183,28 @@ void Application::onMouseButtonUp( SDL_MouseButtonEvent event )
 		if (line||rectangle||triangle||circle) {
 			fi.x = mouse_position.x;
 			fi.y = mouse_position.y;
+
+			
 			if (line) {
-				framebuffer.DDA(inicial, fi, colour);
+				std::cout << "Punt inicial: " << inicial.x << ", " << inicial.y << std::endl;
+				std::cout << "Punt final: " << fi.x << ", " << fi.y << std::endl;
+				int dx, dy, inc_E, inc_NE, d;
+				dx = fi.x - inicial.x;
+				dy = fi.y - inicial.y;
+				inc_E = 2 * dy;
+				inc_NE = 2 * (dy - dx);
+				d = 2 * dy - dx;
+				
+				
+				std::cout << "dx: " << dx << std::endl;
+				std::cout << "dy: " << dy << std::endl;
+				std::cout << "inc_e: " << inc_E << std::endl;
+				std::cout << "inc_ne: " << inc_NE << std::endl;
+				std::cout << "d: " << d << std::endl;
+				std::cout << std::endl << std::endl << std::endl;
+
+
+				framebuffer.Bresenham(inicial, fi, colour);
 				line = false;
 			}
 			if (rectangle) {
