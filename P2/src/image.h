@@ -63,8 +63,11 @@ public:
 	inline void setPixel(unsigned int x, unsigned int y, const Color& c) { pixels[ y * width + x ] = c; }
 	inline void setPixelSafe(unsigned int x, unsigned int y, const Color& c) const { x = clamp(x, 0, width-1); y = clamp(y, 0, height-1); pixels[ y * width + x ] = c; }
 	
+	int sgn(float num) { //No sé on podem afegir la funció sgn
+		return num < 0 ? -1 : num>0; 
+	}
 	void BresenhamCircle(Vector2 &centre, Vector2 &r, const Color& c);
-	void drawLine(Vector2 & init, Vector2  & final, const Color& c);
+	void DDA(Vector2 & inici, Vector2 & final, const Color & c);
 	void drawRectangle(Vector2 & init, Vector2  & final,int plus, const Color& c);
 	void drawTriangle(Vector2 & init, Vector2  & final, const Color& c);
 

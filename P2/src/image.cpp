@@ -68,6 +68,28 @@ void Image::resize(unsigned int width, unsigned int height)
 	pixels = new_pixels;
 }
 
+void Image::DDA(Vector2& inici, Vector2& final, const Color& c) {
+	float difx = final.x - inici.x, dify = final.y - inici.y;
+	float dist, x, y;
+	float dx, dy;
+	if (abs(difx) >= abs(dify))
+		dist = abs(difx);
+	else
+		dist = abs(dify);
+
+	dx = difx / dist;
+	dy = dify / dist;
+
+	x = inici.x + sgn(inici.x)*0.5;
+	y = inici.y + sgn(inici.x)*0.5;
+
+	for (int i = 0; i <= dist; i++) {
+		setPixel(floor(x), floor(y), c);
+		x += dx;
+		y += dy;
+	}
+}
+
 void Image::BresenhamCircle(Vector2 &centre, Vector2 &r, const Color& c)
 {
 	int radi = r.distance(centre);
@@ -98,59 +120,21 @@ void Image::BresenhamCircle(Vector2 &centre, Vector2 &r, const Color& c)
 	}
 }
 
-void Image::drawLine(Vector2 & inici, Vector2  & fi, const Color& c) {
-	Vector2 init = inici, final = fi;
-	
-	if (init.y == final.y) {
-		if (init.x > final.x) {
-			std::swap(init, final);
-		}
-		while (init.x <= final.x) {
-			setPixel(init.x, init.y, c);
-			init.x++;
-		}
-	} else if (init.x == final.x) {
-		if (init.y > final.y) {
-			std::swap(init, final);
-		}
-		while (init.y < final.y) {
-			setPixel(init.x, init.y, c);
-			init.y++;
-		}
-	}
-	else {
-		float dist;
-		int difx, dify;
-		if (init.x > final.x) {
-			std::swap(init, final);
-		}
-		difx = final.x - init.x;
-		dify = final.y - init.y;
-		dist = init.distance(final);
-		float dx = (float)difx / dist;
-		float dy = (float)dify / dist;
-		while (init.x <= final.x) {
-			setPixel(init.x, init.y, c);
-			init.x = init.x + dx;
-			init.y = init.y + dy;
-		}
-	}
-	
-}
+
 void Image::drawRectangle(Vector2 & lup, Vector2  & rdwn,int plus, const Color& c) {	
 	//we understand lup for left-up, rdwn for right-down, rup for right-up and ldwn for left-down vertexs
 	Vector2 rup = { lup.x,rdwn.y};
 	Vector2 ldwn = { rdwn.x,lup.y};
-	drawLine(lup, rup, c);
-	drawLine(rup, rdwn, c);
-	drawLine(rdwn, ldwn, c);
-	drawLine(lup, ldwn, c);
+	DDA(lup, rup, c);
+	DDA(rup, rdwn, c);
+	DDA(rdwn, ldwn, c);
+	DDA(lup, ldwn, c);
 }
 void Image::drawTriangle(Vector2 & init, Vector2  & final, const Color& c) {
-	drawLine(init, final, c);
+	DDA(init, final, c);
 	Vector2 f = { init.x ,final.y };
-	drawLine(init, f, c);
-	drawLine(f, final, c);
+	DDA(init, f, c);
+	DDA(f, final, c);
 
 }
 

@@ -62,6 +62,7 @@ void Application::init(void)
 void Application::render(void)
 {
 	//Create a new Image (or we could create a global one if we want to keep the previous frame)
+	
 	showImage(&framebuffer);
 	showImage(&llegenda);
 	
@@ -183,7 +184,7 @@ void Application::onMouseButtonUp( SDL_MouseButtonEvent event )
 			fi.x = mouse_position.x;
 			fi.y = mouse_position.y;
 			if (line) {
-				framebuffer.drawLine(inicial, fi, colour);
+				framebuffer.DDA(inicial, fi, colour);
 				line = false;
 			}
 			if (rectangle) {
