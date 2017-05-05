@@ -95,45 +95,87 @@ void Image::Bresenham(Vector2& inici, Vector2& final, const Color& c) {
 	int dx, dy, inc_E, inc_NE, d, x, y;
 	int incX = 1, incY = 1;
 
+	//Bresenham Línies
+
 	if (abs(final.y - inici.y) > abs(final.x - inici.x)) {	
-		//Aquí s'hauria "d'invertir" l'algoritme per fer el mateix però desplaçant-se per les y's
-	}
-
-	if (inici.x > final.x) {	//dibuixa els octants de l'esquerra amb pendents no superiors a +-1
-		std::swap(inici, final);
-	}
-
-	dx = final.x - inici.x;
-	dy = final.y - inici.y;
-
-	if (dy < 0) {	//dibuixa l'octant baix-dreta
-		dy = -dy;
-		incY = -1;
-	}
-
-	x = inici.x;
-	y = inici.y;
-
-	setPixelSafe(x, y, c);
-	inc_E = 2 * dy;
-	inc_NE = 2 * (dy - dx);
-	d = 2 * dy - dx;
-
-
-	while (x != final.x)
-	{
-		x = x + incX;
-		if (d <= 0) { //Escollim E
-			d = d + inc_E;
-			//x = x + incX;
+		std::swap(inici.x, inici.y);
+		std::swap(final.x, final.y);
+		if (inici.x > final.x) {	//dibuixa els octants de l'esquerra amb pendents no superiors a +-1
+			std::swap(inici, final);
 		}
-		else { //Escollim NE
-			d = d + inc_NE;
-			//x = x + incX;
-			y = y + incY;
+	
+		dx = final.x - inici.x;
+		dy = final.y - inici.y;
+
+		if (dy < 0) {	//dibuixa l'octant baix-dreta
+			dy = -dy;
+			incY = -1;
 		}
+
+		x = inici.x;
+		y = inici.y;
+
+		setPixelSafe(y, x, c);
+		inc_E = 2 * dy;
+		inc_NE = 2 * (dy - dx);
+		d = 2 * dy - dx;
+
+
+		while (x != final.x)
+		{
+			x = x + incX;
+			if (d <= 0) { //Escollim E
+				d = d + inc_E;
+				//x = x + incX;
+			}
+			else { //Escollim NE
+				d = d + inc_NE;
+				//x = x + incX;
+				y = y + incY;
+			}
+			setPixelSafe(y, x, c);
+		}
+
+	}
+	else {
+		if (inici.x > final.x) {	//dibuixa els octants de l'esquerra amb pendents no superiors a +-1
+			std::swap(inici, final);
+		}
+
+		dx = final.x - inici.x;
+		dy = final.y - inici.y;
+
+		if (dy < 0) {	//dibuixa l'octant baix-dreta
+			dy = -dy;
+			incY = -1;
+		}
+
+		x = inici.x;
+		y = inici.y;
+
 		setPixelSafe(x, y, c);
+		inc_E = 2 * dy;
+		inc_NE = 2 * (dy - dx);
+		d = 2 * dy - dx;
+
+
+		while (x != final.x)
+		{
+			x = x + incX;
+			if (d <= 0) { //Escollim E
+				d = d + inc_E;
+				//x = x + incX;
+			}
+			else { //Escollim NE
+				d = d + inc_NE;
+				//x = x + incX;
+				y = y + incY;
+			}
+			setPixelSafe(x, y, c);
+		}
 	}
+
+	
 	
 	
 }
